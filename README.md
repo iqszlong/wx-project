@@ -1,6 +1,7 @@
 # wx-project
  
 Taro 小程序项目模板。使用京东Nutui搭建的商城小程序模板。
+基于Taro的开箱即用微信小程序开发包。
 
 ## 项目目录
 `packages/nutui`

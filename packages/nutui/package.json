@@ -39,8 +39,9 @@
 	"license": "MIT",
 	"dependencies": {
 		"@babel/runtime": "7.20.1",
-		"@lazy/utils": "workspace:1.0.0",
-		"@lazy/utils-wx": "workspace:^1.0.0",
+		"@lazy/utils": "workspace:*",
+		"@lazy/components-wx": "workspace:*",
+		"@lazy/utils-wx": "workspace:^",
 		"@nutui/nutui-taro": "3.2.6",
 		"@tarojs/components": "3.6.17",
 		"@tarojs/extend": "3.6.17",

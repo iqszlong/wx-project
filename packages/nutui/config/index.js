@@ -22,7 +22,13 @@ const config = {
     options: {},
   },
   framework: "vue3",
-  compiler: "webpack5",
+  compiler: {
+    type: 'webpack5',
+    // 仅 webpack5 支持依赖预编译配置
+    prebundle: {
+      enable: false,
+    },
+  },
   // 别名 同步修改 jsconfig.json
   alias: {
     "@/api": path.resolve(__dirname, "..", "src/api"),
@@ -44,8 +50,8 @@ const config = {
     ],
     data: `@import "@nutui/nutui-taro/dist/styles/variables.scss";`,
   },
+  
   mini: {
-    hot: true,
     postcss: {
       pxtransform: {
         enable: true,

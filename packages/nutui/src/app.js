@@ -3,6 +3,7 @@ import { createApp } from "vue";
 import nutui from "@/components/nutui";
 import { createPinia } from "pinia";
 import components from "@/components/index";
+import lazywx from "@lazy/components-wx";
 import eventBus from "vue3-eventbus";
 import utils from "@/utils/index";
 import { setGlobalDataPlugin } from "@tarojs/taro";
@@ -32,6 +33,7 @@ const App = createApp({
 
 App.use(createPinia())
   .use(components)
+  .use(lazywx)
   .use(nutui)
   .use(eventBus)
   .use(setGlobalDataPlugin, { x: 1 }); // 公共变量;

@@ -28,6 +28,6 @@ package-lock.json
 *.sw?
 *.log
 
-packages/nbp/
-packages/nyt/
-packages/syjg/
+packages/nbp/*
+packages/nyt/*
+packages/syjg/*

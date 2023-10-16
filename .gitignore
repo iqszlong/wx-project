@@ -31,3 +31,6 @@ package-lock.json
 packages/nbp/*
 packages/nyt/*
 packages/syjg/*
+packages/syjg/
+packages/nbp/
+packages/inyt/

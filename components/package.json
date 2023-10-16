@@ -1,0 +1,10 @@
+{
+  "name": "@lazy/components-wx",
+  "version": "1.0.0",
+  "description": "nutui vue3 组件",
+  "main": "index.js",
+  
+  "keywords": [],
+  "author": "iqszlong",
+  "license": "ISC"
+}

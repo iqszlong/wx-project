@@ -43,7 +43,8 @@ Taro 小程序项目模板。使用京东Nutui搭建的商城小程序模板。
 
 ## Nutui模板使用前事项
 + 修改`project.config.json`文件中的`appid`为小程序的AppID，或新建`project.private.config.json`添加`appid`为小程序的AppID
-+ 上传到微信审核前，需要`pnpm build:weapp`打包一次线上版本。`config/prod.js`需修改`env.API`为线上请求地址。开发则修改`config/dev.js`中的`env.API`为开发请求地址。
++ `config/prod.js`需修改`env.API`为线上请求地址。开发则修改`config/dev.js`中的`env.API`为开发请求地址。
++ 发布微信前，需要`pnpm build:weapp`打包一次线上版本。
 
 # Nutui模板运行以及打包路径
 

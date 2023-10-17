@@ -36,9 +36,20 @@ Taro 小程序项目模板。使用京东Nutui搭建的商城小程序模板。
     - /js  (公共js) @lazy/utils
     - /wx  (微信小程序公共js) @lazy/utils-wx
 
-## nutui模板目录
+## Nutui模板目录
 - config (配置文件)
+    -
 - dist (生成文件)
+
+## Nutui模板使用前事项
++ 修改`project.config.json`文件中的`appid`为小程序的AppID，或新建`project.private.config.json`添加`appid`为小程序的AppID
++ 上传到微信审核前，需要`pnpm build:weapp`打包一次线上版本。`config/prod.js`需修改`env.API`为线上请求地址。开发则修改`config/dev.js`中的`env.API`为开发请求地址。
+
+# Nutui模板运行以及打包路径
+
+网页端：dist/h5
+
+微信小程序：dist/weapp
 
 ## 安装
 进入项目目录`packages/nutui`运行命令
@@ -70,3 +81,17 @@ pnpm taro update project [版本号]
 
 # 问题解决方案收集
 + [app.js错误](https://github.com/NervJS/taro/issues/13456)
+
+
+# 相关文档
+- [Nut UI](https://nutui.jd.com)
+- [Taro API](https://docs.taro.zone/docs/apis/about/desc)
+- [Taro编译配置](https://taro-docs.jd.com/taro/docs/config-detail/)
+- [Taro 使用原生模块](https://docs.taro.zone/docs/hybrid#%E4%BD%BF%E7%94%A8%E5%8E%9F%E7%94%9F%E7%BB%84%E4%BB%B6)
+- [小程序编译优化指南](https://docs.taro.zone/docs/compile-optimized)
+- [小程序持续集成](https://docs.taro.zone/docs/plugin-mini-ci)
+- [微信小程序自定义 Tabbar](https://taro-docs.jd.com/taro/docs/custom-tabbar)
+- [全局配置](https://taro-docs.jd.com/taro/docs/app-config)
+- [项目配置](https://taro-docs.jd.com/taro/docs/project-config)
+- [Babel 配置](https://taro-docs.jd.com/taro/docs/babel-config)
+- [静态资源引用](https://taro-docs.jd.com/taro/docs/static-reference)

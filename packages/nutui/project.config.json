@@ -2,7 +2,7 @@
   "miniprogramRoot": "dist/weapp/",
   "projectname": "nutui",
   "description": "nutui",
-  "appid": "wx24e3c5fccad7db26",
+  "appid": "appid",
   "setting": {
     "urlCheck": true,
     "es6": false,

@@ -2,9 +2,12 @@
   <view class="index">
     <TopBar class="top-bar-bg" title="首页"></TopBar>
     <view>
-      <img src="https://img.server.com/pinterest/fbd7aff4f39ffa4a9f6f7b222b244237.jpg" :style="{ width: '100%' }" alt=""
+      <img src="//img.server.com/pinterest/fbd7aff4f39ffa4a9f6f7b222b244237.jpg" :style="{ width: '100%' }" alt=""
         mode="widthFix" />
     </view>
+    <view>
+      <nut-icon font-class-name="remixicon" class-prefix="ri" name="home-7-line" />
+      版本号：{{ global.version }}</view>
     <view>
       {{ msg }}
     </view>
@@ -12,16 +15,15 @@
     <nut-button @click="goPage('/pages/notfind/index')">404页面</nut-button>
     <nut-button @click="setRequest">发起测试请求</nut-button>
     <nut-button open-type="share">分享</nut-button>
-    <div>
-      <nut-icon font-class-name="remixicon" class-prefix="ri" name="home-7-line" />
-    </div>
+
     <nut-button type="primary" icon-font-class-name="remixicon" icon-class-prefix="ri" icon="delete-bin-5-line">
     </nut-button>
-    <nut-button type="default">
-    </nut-button>
+    <nut-button type="default">默认</nut-button>
 
     <nut-toast :msg="msg2" v-model:visible="show" :type="type" :cover="cover" />
+    
   </view>
+  
 </template>
 
 <script>
@@ -98,7 +100,7 @@ export default {
 
 
     onMounted(() => {
-      // console.log(utils.global.getValue().x);
+      // console.log(utils.global.getValue().version);
     })
 
     return {
@@ -106,7 +108,7 @@ export default {
       handleClick,
       goPage,
       setRequest,
-      global: computed(() => store.getters.getGlobal)
+      global: computed(() => utils.global.getValue())
     }
   }
 }

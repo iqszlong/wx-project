@@ -36,6 +36,6 @@ App.use(createPinia())
   .use(lazywx)
   .use(nutui)
   .use(eventBus)
-  .use(setGlobalDataPlugin, { x: 1 }); // 公共变量;
+  .use(setGlobalDataPlugin, { version: 1 }); // 公共变量;
 
 export default App;

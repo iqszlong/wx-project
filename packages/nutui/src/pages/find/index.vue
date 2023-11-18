@@ -1,15 +1,12 @@
 <template>
   <view class="find">
-    <TopBar :title="title"></TopBar>
-    {{ msg }}
+    <TopBar class="top-bar-bg" :title="title" :setPlace="true"></TopBar>
 
-    <img src="https://img.server.com/picture/imgtemp/RM036.jpg" :style="{width:'100%'}" alt="" mode="widthFix" />
 
-    <nut-icon font-class-name="remixicon" class-prefix="ri" name="home-7-line" />
-    <nut-button type="primary" icon-font-class-name="remixicon" icon-class-prefix="ri" icon="delete-bin-5-line">
-    </nut-button>
-    <nut-button type="default">
-    </nut-button>
+    <!-- <img src="https://img.server.com/picture/imgtemp/RM036.jpg" :style="{width:'100%'}" alt="" mode="widthFix" /> -->
+
+    <IconFont font-class-name="remixicon" class-prefix="ri" name="home-7-line" ></IconFont>
+   
 
     <nut-toast :msg="msg" v-model:visible="show" :type="type" :cover="cover" />
   </view>
@@ -17,8 +14,10 @@
 
 <script>
 import { reactive, toRefs } from 'vue';
+import { IconFont } from '@nutui/icons-vue-taro';
 export default {
   components: {
+    IconFont
   },
   setup() {
     const state = reactive({

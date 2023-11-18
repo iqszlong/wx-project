@@ -1,4 +1,10 @@
-const path = require("path");
+// const path = require("path");
+
+import ComponentsPlugin from "unplugin-vue-components/webpack";
+import NutUIResolver from "@nutui/auto-import-resolver";
+
+import path from "path";
+
 const config = {
   projectName: "nutui",
   date: "2022-9-14",
@@ -30,7 +36,7 @@ const config = {
       },
     ],
     "taro-plugin-pinia",
-  ], 
+  ],
   // 插件包
   defineConstants: {},
   copy: {
@@ -110,6 +116,12 @@ const config = {
           },
         },
       });
+      // Nutui 样式按需引入
+      chain.plugin("unplugin-vue-components").use(
+        ComponentsPlugin({
+          resolvers: [NutUIResolver({ taro: true })],
+        })
+      );
     },
   },
   h5: {
@@ -128,6 +140,14 @@ const config = {
           generateScopedName: "[name]__[local]___[hash:base64:5]",
         },
       },
+    },
+    // Nutui 样式按需引入
+    webpackChain(chain) {
+      chain.plugin("unplugin-vue-components").use(
+        ComponentsPlugin({
+          resolvers: [NutUIResolver({ taro: true })],
+        })
+      );
     },
   },
 };

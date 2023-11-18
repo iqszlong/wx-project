@@ -11,7 +11,7 @@
 
             <div class="address">
                 <div class="current-select">
-                    <nut-icon name="locationg3"></nut-icon>
+                    <IconFont name="locationg3"></IconFont>
                     <div class="ad-body">
                         <div class="ad-title">
                             {{consignee}}
@@ -118,9 +118,10 @@
 import { onMounted, reactive, toRefs } from 'vue';
 import { Router } from "tarojs-router-next"; // 路由库
 import api from '@/api/index';
-
+import { IconFont } from '@nutui/icons-vue-taro';
 export default {
     components: {
+        IconFont
     },
     setup() {
 

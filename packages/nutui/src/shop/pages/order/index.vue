@@ -1,7 +1,5 @@
 <template>
-    <div v-if="loading" class="n-loading">
-        <nut-icon size="32px" name="loading"></nut-icon>
-    </div>
+    <PageLoading v-if="loading"></PageLoading>
     <view v-else class="order">
         <addressSelect ref="address"></addressSelect>
 

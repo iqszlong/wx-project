@@ -1,12 +1,12 @@
 <template>
   <view class="index">
-    <TopBar class="top-bar-bg" title="首页"></TopBar>
-    <view>
+    <TopBar class="top-bar-bg" title="首页" :setPlace="true"></TopBar>
+    <!-- <view>
       <img src="//img.server.com/pinterest/fbd7aff4f39ffa4a9f6f7b222b244237.jpg" :style="{ width: '100%' }" alt=""
         mode="widthFix" />
-    </view>
+    </view> -->
     <view>
-      <nut-icon font-class-name="remixicon" class-prefix="ri" name="home-7-line" />
+      <IconFont font-class-name="remixicon" class-prefix="ri" name="home-7-line"></IconFont>
       版本号：{{ global.version }}</view>
     <view>
       {{ msg }}
@@ -16,7 +16,10 @@
     <nut-button @click="setRequest">发起测试请求</nut-button>
     <nut-button open-type="share">分享</nut-button>
 
-    <nut-button type="primary" icon-font-class-name="remixicon" icon-class-prefix="ri" icon="delete-bin-5-line">
+    <nut-button type="primary">
+      <template #icon>
+        <IconFont font-class-name="remixicon" class-prefix="ri" name="delete-bin-5-line"></IconFont>
+      </template>
     </nut-button>
     <nut-button type="default">默认</nut-button>
 
@@ -32,10 +35,12 @@ import { reactive, toRefs, onMounted, computed } from 'vue';
 import utils from "@/utils/index";
 import api from "@/api/";
 import { useSystemStore } from "@/store/index";
+import { IconFont } from '@nutui/icons-vue-taro';
 
 export default {
   name: 'Index',
   components: {
+    IconFont
   },
   setup() {
 

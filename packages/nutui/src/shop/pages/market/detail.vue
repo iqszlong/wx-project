@@ -1,7 +1,6 @@
 <template>
-  <div v-if="loading" class="n-loading">
-    <nut-icon size="32px" name="loading"></nut-icon>
-  </div>
+  <PageLoading v-if="loading"></PageLoading>
+
   <view v-else class="market-detail">
     <nut-backtop :bottom="90">
       <template v-slot:content>
@@ -61,7 +60,7 @@
         <div class="num-wrapper">
           <div class="label">购买数量</div>
           <div class="n-space"></div>
-          <nut-inputnumber v-model="goodItem.quantity" :min="1" @change="changeStepper"/>
+          <nut-inputnumber v-model="goodItem.quantity" :min="1" @change="changeStepper" />
         </div>
       </template>
     </nut-sku>
@@ -69,7 +68,6 @@
     <nut-toast :msg="msg" v-model:visible="show" :type="type" :cover="cover" />
 
   </view>
-
 </template>
 
 <script>

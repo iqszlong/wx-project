@@ -1,7 +1,5 @@
 <template>
-    <div v-if="loading" class="n-loading">
-        <nut-icon size="32px" name="loading"></nut-icon>
-    </div>
+    <PageLoading v-if="loading"></PageLoading>
     <template v-else-if="productList.length == 0">
         <div class="n-empty">
             <nut-empty image="empty" description="无内容"></nut-empty>

@@ -3,11 +3,11 @@
         <div class="address" @click="showPopAddress = true">
 
             <div v-if="currentAddress == null" class="empty-select">
-                <nut-icon name="locationg3"></nut-icon>请选择派送地址
+                <IconFont name="locationg3"></IconFont>请选择派送地址
             </div>
 
             <div v-else class="current-select">
-                <nut-icon name="locationg3"></nut-icon>
+                <IconFont name="locationg3"></IconFont>
                 <div class="ad-body">
                     <div class="ad-title">
                         {{ currentAddress.name }}
@@ -32,8 +32,8 @@
                 <div class="n-pop-body">
                     <div :class="['address-item', currentAddress.id == item.id ? 'active' : '']"
                         v-for="item of existAddress" :key="item.id" @click="chooseAddress(item)">
-                        <nut-icon name="Check" v-if="currentAddress.id == item.id"></nut-icon>
-                        <nut-icon name="locationg3" v-else></nut-icon>
+                        <IconFont name="Check" v-if="currentAddress.id == item.id"></IconFont>
+                        <IconFont name="locationg3" v-else></IconFont>
                         <div class="ad-body">
                             <div class="ad-title">
                                 {{ item.name }}
@@ -69,9 +69,11 @@
 import { reactive, toRefs, onMounted } from 'vue'
 import api from '@/api/index';
 import utils from '@/utils/index';
-
+import { IconFont } from '@nutui/icons-vue-taro';
 export default {
-
+    components: {
+        IconFont,
+    },
     setup() {
         const state = reactive({
             existAddress: [], // 已存在地址
@@ -215,7 +217,7 @@ export default {
         align-items: center;
         gap: 8px;
 
-        .nut-icon {
+        .IconFont {
             color: $primary-color;
         }
 
@@ -262,7 +264,7 @@ export default {
     }
 
     &.active {
-        .nut-icon {
+        .IconFont {
             color: $primary-color;
         }
     }

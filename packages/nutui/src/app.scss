@@ -3,7 +3,8 @@
 
 .index,
 .category,
-.my {
+.my,
+.find {
   box-sizing: border-box;
   padding-bottom: unquote('calc(constant(safe-area-inset-bottom) + 52px)');
   padding-bottom: calc(env(safe-area-inset-bottom) + 52px);

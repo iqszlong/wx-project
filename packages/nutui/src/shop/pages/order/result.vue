@@ -1,7 +1,7 @@
 <template>
     <div class="reslut">
         <div class="box">
-            <nut-icon name="success" size="24px" color="#26bf26"></nut-icon>
+            <IconFont name="success" size="24px" color="#26bf26"></IconFont>
             <div>{{msg}}</div>
         </div>
     </div>
@@ -10,7 +10,11 @@
 <script>
 import { reactive, toRefs } from 'vue'
 import { Router } from "tarojs-router-next"; // 路由库
+import { IconFont } from '@nutui/icons-vue-taro';
 export default {
+    components: {
+        IconFont,
+    },
     setup() {
         const state = reactive({
             msg: '支付成功',

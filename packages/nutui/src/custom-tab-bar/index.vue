@@ -1,17 +1,20 @@
 <template>
-  <nut-tabbar @tab-switch="tabSwitch" v-model:visible="selected" safe-area-inset-bottom>
-    <!-- font-class-name="remixicon" class-prefix="ri" -->
-    <nut-tabbar-item v-for="(item, index) of menus" :key="index" :tab-title="item.title" :icon="item.icon" :num="item.num">
+  <nut-tabbar @tab-switch="tabSwitch" v-model="selected" unactive-color="#7d7e80" active-color="#FF192C" safe-area-inset-bottom placeholder>
+    <nut-tabbar-item v-for="(item, index) of menus" :key="index" :tab-title="item.title" :icon="item.icon" :value="item.num">
     </nut-tabbar-item>
   </nut-tabbar>
 </template>
 
 <script>
 import Taro from '@tarojs/taro';
-import { ref ,computed} from 'vue';
-import { useSystemStore,useCartStore } from '@/store/'
+import { Home, Category, Find, Cart, My } from '@nutui/icons-vue-taro';
+import { ref, computed, h } from 'vue';
+import { useSystemStore, useCartStore } from '@/store/'
 import { storeToRefs } from 'pinia'
 export default {
+  components: {
+    Home, Category, Find, Cart, My
+  },
   setup() {
     const store = useSystemStore();
     const cartSore = useCartStore();
@@ -19,29 +22,29 @@ export default {
 
     const menus = ref([{
       title: '首页',
-      icon: 'home',
+      icon: h(Home),
       url: '/pages/index/index',
       num: null,
     }, {
       title: '分类',
-      icon: 'category',
+      icon: h(Category),
       url: '/pages/category/index',
       num: null,
     },
     {
       title: '发现',
-      icon: 'find',
+      icon: h(Find),
       url: '/pages/find/index',
       num: null,
     },
     {
       title: '购物车',
-      icon: 'cart',
+      icon: h(Cart),
       url: '/pages/cart/index',
       num: computed(() => cartSore.total),
     }, {
       title: '我的',
-      icon: 'my',
+      icon: h(My),
       url: '/pages/my/index',
       num: null,
     }]);

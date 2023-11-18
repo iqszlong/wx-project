@@ -1,11 +1,15 @@
 <template>
     <div class="n-loading">
-        <nut-icon size="32px" name="loading1"></nut-icon>
+        <IconFont size="32px" name="loading1"></IconFont>
     </div>
 </template>
 
 <script>
+import { IconFont } from '@nutui/icons-vue-taro';
 export default {
+    components: {
+        IconFont,
+    },
     setup() {
 
 

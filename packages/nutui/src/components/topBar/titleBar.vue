@@ -1,15 +1,22 @@
 <template>
     <div class="n-title-bar" :style="{ height: `${titleBarHeight}px` }">
         <div class="n-space">
-            <nut-button v-if="isShowBack" class="btn-ctrl" type="default" size="small" icon-font-class-name="remixicon"
-                icon-class-prefix="ri" icon="arrow-left-line" @click="goBack" style="border:none;">
+            <nut-button v-if="isShowBack" class="btn-ctrl" type="default" size="small" @click="goBack" style="border:none;">
+                <template #icon>
+                    <IconFont font-class-name="remixicon" class-prefix="ri" name="arrow-left-line"></IconFont>
+                </template>
             </nut-button>
-            <nut-button v-if="isShowHome" class="btn-ctrl" type="default" size="small" icon-font-class-name="remixicon" icon-class-prefix="ri"
-                icon="home-4-line" @click="switchTab('/pages/index/index')" style="border:none;">
+            <nut-button v-if="isShowHome" class="btn-ctrl" type="default" size="small"
+                @click="switchTab('/pages/index/index')" style="border:none;">
+                <template #icon>
+                    <IconFont font-class-name="remixicon" class-prefix="ri" name="home-4-line"></IconFont>
+                </template>
             </nut-button>
             <slot name="left"></slot>
         </div>
-        <div class="title"><slot>{{ title }}</slot></div>
+        <div class="title">
+            <slot>{{ title }}</slot>
+        </div>
         <div class="n-space last">
             <slot name="right"></slot>
         </div>
@@ -20,16 +27,19 @@
 import utils from '@/utils/index';
 import Taro from '@tarojs/taro';
 import { reactive, toRefs, onMounted } from 'vue'
-
+import { IconFont } from '@nutui/icons-vue-taro';
 
 
 export default {
+    components: {
+        IconFont,
+    },
     props: {
         title: {
             type: String,
             default: ''
         },
-        titleBarHeight:{
+        titleBarHeight: {
             type: Number,
             default: 0
         }
@@ -78,5 +88,4 @@ export default {
             margin-left: 8px;
         }
     }
-}
-</style>
+}</style>

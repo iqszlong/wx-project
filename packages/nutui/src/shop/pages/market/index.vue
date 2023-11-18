@@ -1,8 +1,6 @@
 <template>
   <LoginView v-if="!hasToken" :path="path"></LoginView>
-  <div v-else-if="loading" class="n-loading">
-    <nut-icon size="32px" name="loading"></nut-icon>
-  </div>
+  <PageLoading v-else-if="loading"></PageLoading>
   <div v-else class="market">
 
     <locationBtn ref="local"></locationBtn>
@@ -15,9 +13,9 @@
       </div>
       <div class="n-tab-panel">
 
-        <div v-if="listLoading" class="n-loading">
-          <nut-icon size="32px" name="loading"></nut-icon>
-        </div>
+        
+
+        <PageLoading v-if="listLoading"></PageLoading>
 
         <div v-else class="product-list">
           <div class="product-item" v-for="item of productList" :key="item.id">

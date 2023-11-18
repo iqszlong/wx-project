@@ -10,9 +10,7 @@
     <!-- <scroll-view class="scroll-view" :scrollY="true" :scrollAnchoring="true" :refresherEnabled="true"
       @ScrollToLower="changePage" @RefresherRefresh="reload" :refresherTriggered="loading"> -->
 
-    <div v-if="loading" class="n-loading">
-      <nut-icon size="32px" name="loading"></nut-icon>
-    </div>
+    <PageLoading v-if="loading"></PageLoading>
     <template v-else-if="list.length == 0">
       <div class="n-empty">
         <nut-empty image="empty" description="无内容"></nut-empty>
@@ -132,7 +130,7 @@ export default {
           pageData.list = pageData.list.concat(data.list);
           pageData.total = data.total;
         }
-      }).finally(()=>{
+      }).finally(() => {
         pageData.loading = false;
       })
     }

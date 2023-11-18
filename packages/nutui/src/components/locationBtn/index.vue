@@ -1,16 +1,19 @@
 <template>
     <nut-button class="location-btn" type="default" size="small" @click="openMap">
-        <nut-icon name="locationg3" :size="10"></nut-icon>
+        <IconFont name="locationg3" :size="10"></IconFont>
         {{msg}}
-        <nut-icon name="right" :size="10"></nut-icon>
+        <IconFont name="right" :size="10"></IconFont>
     </nut-button>
 </template>
 
 <script>
 import { reactive, toRefs, onMounted } from 'vue';
 import Taro from '@tarojs/taro';
-
+import { IconFont } from '@nutui/icons-vue-taro';
 export default {
+    components: {
+        IconFont,
+    },
     setup() {
         const tips = reactive({
             msg: '正在获取地理位置',

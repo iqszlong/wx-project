@@ -1,9 +1,10 @@
 import { createApp } from "vue";
 
-import nutui from "@/components/nutui";
+// import nutui from "@/components/nutui";
+// import { IconFont } from '@nutui/icons-vue-taro';
 import { createPinia } from "pinia";
 import components from "@/components/index";
-import lazywx from "@lazy/components-wx";
+// import lazywx from "@lazy/components-wx";
 import eventBus from "vue3-eventbus";
 import utils from "@/utils/index";
 import { setGlobalDataPlugin } from "@tarojs/taro";
@@ -33,8 +34,9 @@ const App = createApp({
 
 App.use(createPinia())
   .use(components)
-  .use(lazywx)
-  .use(nutui)
+  //.use(IconFont)
+  // .use(lazywx)
+  // .use(nutui)
   .use(eventBus)
   .use(setGlobalDataPlugin, { version: 1 }); // 公共变量;
 

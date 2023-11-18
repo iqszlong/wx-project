@@ -18,19 +18,19 @@
       <div class="n-card">
         <nut-grid :column-num="4" :border="false" clickable>
           <nut-grid-item class="grid-item" @click="goPage('/shop/pages/order/order',{params:{status:1}})">
-            <nut-icon size="24" font-class-name="remixicon" class-prefix="ri" name="coin-line" />
+            <IconFont size="24" font-class-name="remixicon" class-prefix="ri" name="coin-line" />
             <span>待付款</span>
           </nut-grid-item>
           <nut-grid-item class="grid-item" @click="goPage('/shop/pages/order/order',{params:{status:4}})">
-            <nut-icon size="24" font-class-name="remixicon" class-prefix="ri" name="chat-smile-2-line" />
+            <IconFont size="24" font-class-name="remixicon" class-prefix="ri" name="chat-smile-2-line" />
             <span>待评价</span>
           </nut-grid-item>
           <nut-grid-item class="grid-item" @click="goPage('/shop/pages/order/order',{params:{status:5}})">
-            <nut-icon size="24" font-class-name="remixicon" class-prefix="ri" name="exchange-cny-line" />
+            <IconFont size="24" font-class-name="remixicon" class-prefix="ri" name="exchange-cny-line" />
             <span>退款/售后</span>
           </nut-grid-item>
           <nut-grid-item class="grid-item" @click="goPage('/shop/pages/order/order')">
-            <nut-icon size="24" font-class-name="remixicon" class-prefix="ri" name="file-list-3-line" />
+            <IconFont size="24" font-class-name="remixicon" class-prefix="ri" name="file-list-3-line" />
             <span>全部订单</span>
           </nut-grid-item>
         </nut-grid>
@@ -55,10 +55,11 @@ import { reactive, toRefs, computed } from 'vue';
 import utils from '@/utils/index';
 
 import { useSystemStore } from '@/store/index';
-
+import { IconFont } from '@nutui/icons-vue-taro';
 
 export default {
   components: {
+    IconFont
   },
   onShow() {
     // console.log('onShow');

@@ -129,7 +129,7 @@ export default {
         // 添加地址
         const goAdd = async () => {
 
-            const hasData = await utils.router.goPage('/pages/address/add', { data: { isFrist: state.existAddress.length == 0 } });
+            const hasData = await utils.router.goPage('/settings/pages/address/add', { data: { isFrist: state.existAddress.length == 0 } });
             if (hasData) {// 如果确定保存过数据则刷新列表
                 // console.log('hasData');
                 state.existAddress = [];

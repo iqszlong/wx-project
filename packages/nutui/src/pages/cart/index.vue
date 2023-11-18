@@ -91,7 +91,7 @@ export default {
       // 进入下单页面
       const selectedList = JSON.parse(JSON.stringify(bottomData.selectList));
       // console.log(selectedList);
-      utils.router.goPage('/pages/order/index', { data: selectedList })
+      utils.router.goPage('/shop/pages/order/index', { data: selectedList })
     }
 
 

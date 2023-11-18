@@ -94,7 +94,7 @@ export default {
         tips.show = false;
         const { code } = res;
         if (code == 0) {
-          utils.router.goPage('/pages/address/edit', { data: res.data });
+          utils.router.goPage('/settings/pages/address/edit', { data: res.data });
         }
 
       });
@@ -109,7 +109,7 @@ export default {
     }
     const addAddress = (e) => {
       // console.log('Click To Add', e);
-      utils.router.goPage('/pages/address/add', { data: { isFrist: state.list.length == 0 } });
+      utils.router.goPage('/settings/pages/address/add', { data: { isFrist: state.list.length == 0 } });
     }
 
     onMounted(() => {

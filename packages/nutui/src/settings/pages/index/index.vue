@@ -1,7 +1,7 @@
 <template>
   <view class="setting">
     <nut-cell-group>
-      <nut-cell title="个人设置" is-link @click="goPage('/pages/my/baseInfo')"></nut-cell>
+      <nut-cell title="个人设置" is-link @click="goPage('/settings/pages/user/baseInfo')"></nut-cell>
     </nut-cell-group>
 
 

@@ -39,7 +39,7 @@ export default {
     };
     const onChange =(item)=>{
         console.log("当前分类数据",item);
-        utils.router.goPage("/pages/market/index")
+        utils.router.goPage("/shop/pages/market/index")
         
     }
 

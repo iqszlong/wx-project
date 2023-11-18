@@ -20,7 +20,7 @@
     </template>
     <template v-else>
       <nut-cell class="order-item" v-for="item of list">
-        <div class="order-inner" @click="goPage('/pages/order/detail', { params: { id: item.id } })">
+        <div class="order-inner" @click="goPage('/shop/pages/order/detail', { params: { id: item.id } })">
           <div class="order-header">
             订单号:{{ item.orderSn }}
             <div class="n-space"></div>
@@ -131,8 +131,9 @@ export default {
           // console.log(data);
           pageData.list = pageData.list.concat(data.list);
           pageData.total = data.total;
-          pageData.loading = false;
         }
+      }).finally(()=>{
+        pageData.loading = false;
       })
     }
 

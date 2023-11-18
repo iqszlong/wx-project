@@ -17,19 +17,19 @@
     <div class="panel-layout">
       <div class="n-card">
         <nut-grid :column-num="4" :border="false" clickable>
-          <nut-grid-item class="grid-item" @click="goPage('/pages/order/order',{params:{status:1}})">
+          <nut-grid-item class="grid-item" @click="goPage('/shop/pages/order/order',{params:{status:1}})">
             <nut-icon size="24" font-class-name="remixicon" class-prefix="ri" name="coin-line" />
             <span>待付款</span>
           </nut-grid-item>
-          <nut-grid-item class="grid-item" @click="goPage('/pages/order/order',{params:{status:4}})">
+          <nut-grid-item class="grid-item" @click="goPage('/shop/pages/order/order',{params:{status:4}})">
             <nut-icon size="24" font-class-name="remixicon" class-prefix="ri" name="chat-smile-2-line" />
             <span>待评价</span>
           </nut-grid-item>
-          <nut-grid-item class="grid-item" @click="goPage('/pages/order/order',{params:{status:5}})">
+          <nut-grid-item class="grid-item" @click="goPage('/shop/pages/order/order',{params:{status:5}})">
             <nut-icon size="24" font-class-name="remixicon" class-prefix="ri" name="exchange-cny-line" />
             <span>退款/售后</span>
           </nut-grid-item>
-          <nut-grid-item class="grid-item" @click="goPage('/pages/order/order')">
+          <nut-grid-item class="grid-item" @click="goPage('/shop/pages/order/order')">
             <nut-icon size="24" font-class-name="remixicon" class-prefix="ri" name="file-list-3-line" />
             <span>全部订单</span>
           </nut-grid-item>
@@ -37,8 +37,8 @@
       </div>
 
       <nut-cell-group>
-        <nut-cell title="我的地址" is-link @click="goPage('/pages/address/index')"></nut-cell>
-        <nut-cell title="设置" is-link @click="goPage('/pages/setting/index')"></nut-cell>
+        <nut-cell title="我的地址" is-link @click="goPage('/settings/pages/address/index')"></nut-cell>
+        <nut-cell title="设置" is-link @click="goPage('/settings/pages/index/index')"></nut-cell>
       </nut-cell-group>
 
     </div>

@@ -13,7 +13,22 @@ const config = {
   outputRoot: `dist/${process.env.TARO_ENV}`, // 根据平台生成代码包
   plugins: [
     "@tarojs/plugin-html",
-    "tarojs-router-next-plugin",
+    [
+      "tarojs-router-next-plugin",
+      {
+        watch: false,
+        // packages: [
+        //   {
+        //     name: "shop",
+        //     pagePath: path.resolve(__dirname, "..", "src/shop/pages"),
+        //   },
+        //   {
+        //     name: "settings",
+        //     pagePath: path.resolve(__dirname, "..", "src/settings/pages"),
+        //   },
+        // ],
+      },
+    ],
     "taro-plugin-pinia",
   ], // 插件包
   defineConstants: {},

@@ -7,6 +7,9 @@ import {
 
 import utils from ".";
 
+
+const whiteList = ["index","login"];
+
 // 跳转页面
 const goPage = async (url, data = {}, fn) => {
   if (url == "" || url == undefined) {
@@ -54,11 +57,8 @@ const getParams = () => Router.getParams();
 // 中间件
 const Logger = async (ctx, next) => {
   // console.log("第一个中间件执行：", ctx.route.url);
-  if (
-    !utils.wxLogin.hasToken() &&
-    ctx.route.url != "/pages/login/index" &&
-    ctx.route.url != "/pages/index/index"
-  ) {
+  const pageName = ctx.route.url.split("/")[1];
+  if (!utils.wxLogin.hasToken() && !whiteList.includes(pageName)) {
     goPage("/pages/login/index");
     return;
   }

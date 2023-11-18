@@ -22,7 +22,7 @@
         <div v-else class="product-list">
           <div class="product-item" v-for="item of productList" :key="item.id">
             <goodItem :img-url="item.mainPicUrl" :title="item.name" :price="`${item.sellPrice}`" :data="item" readonly
-              @linkClick="goPage('/pages/market/detail', { params: { id: item.id }, data: item })">
+              @linkClick="goPage('/shop/pages/market/detail', { params: { id: item.id }, data: item })">
               <template #origin>
                 <nut-price class="price-origin" :price="item.originalPrice" size="small" />
               </template>
@@ -88,7 +88,7 @@ export default {
 
     const page = reactive({
       title: '校园超市',
-      path: '/pages/market/index',
+      path: '/shop/pages/market/index',
       loading: true, // 加载
       listLoading: true, // 商品列表加载
       specBtnloading: false, // 规格按钮加载

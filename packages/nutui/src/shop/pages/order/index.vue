@@ -192,7 +192,7 @@ export default {
             confirmDate,
             confirmTime,
             getData,
-            goResult: () => utils.router.redirect("/pages/order/result"),
+            goResult: () => utils.router.redirect("/shop/pages/order/result"),
         };
     },
 }

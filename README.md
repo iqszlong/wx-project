@@ -1,5 +1,5 @@
 # wx-project
- 
+
 Taro 小程序项目模板。使用京东Nutui搭建的商城小程序模板。
 基于Taro的开箱即用微信小程序开发包。
 
@@ -78,9 +78,56 @@ pnpm taro update project
 pnpm taro update project [版本号]
 ```
 
+# 微信小程序分包优化
+官方分包示例 [github示例](https://github.com/NervJS/taro/tree/feat/webpack5/examples/mini-split-chunks-plugin)
 
+
+在`app.config.js`中添加subpackages配置，示例如下
+```js
+pages: [
+    "pages/index/index",
+    "pages/category/index",
+    "pages/find/index",
+    "pages/cart/index",
+    "pages/my/index",
+
+    "pages/login/index",
+    "pages/notfind/index",
+  ],
+  subpackages: [
+    {
+      root: "shop",
+      name: "shop",
+      pages: [
+        "pages/market/index",
+        "pages/market/detail",
+        "pages/order/index",
+        "pages/order/result",
+        "pages/order/order",
+        "pages/order/detail",
+      ],
+    },
+    {
+      root: "settings",
+      name: "settings",
+      pages:[
+        "pages/index/index",
+        "pages/user/baseInfo",
+        "pages/address/index",
+        "pages/address/add",
+        "pages/address/edit",
+
+      ]
+    }
+  ],
+```
+
+分包后页面的路径也发生变化，`shop`分包页面的访问路径是`/shop/pages/order/order`，`settings`分包页面访问路径是`/setting/pages/index/index`。分包后主包内容会减少，但根据Taro文档的说法文件总量会增加。
+
+> 注意：分包页面不能使用在底部导航栏`tabBar`中，只能用主包`pages`中的页面
 
 # 问题解决方案收集
+
 + [app.js错误](https://github.com/NervJS/taro/issues/13456)
 
 

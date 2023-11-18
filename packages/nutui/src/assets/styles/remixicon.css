@@ -10,12 +10,12 @@
 */
 @font-face {
   font-family: "remixicon";
-  src: url('https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.eot?t=1590207869815'); /* IE9*/
-  src: url('https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.eot?t=1590207869815#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url("https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.woff2?t=1590207869815") format("woff2"),
-  url("https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.woff?t=1590207869815") format("woff"),
-  url('https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.ttf?t=1590207869815') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.svg?t=1590207869815#remixicon') format('svg'); /* iOS 4.1- */
+  src: url('https://cdn.staticfile.org/remixicon/3.5.0/remixicon.eot?t=1690730386070'); /* IE9*/
+  src: url('https://cdn.staticfile.org/remixicon/3.5.0/remixicon.eot?t=1690730386070#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url("https://cdn.staticfile.org/remixicon/3.5.0/remixicon.woff2?t=1690730386070") format("woff2"),
+  url("https://cdn.staticfile.org/remixicon/3.5.0/remixicon.woff?t=1690730386070") format("woff"),
+  url('https://cdn.staticfile.org/remixicon/3.5.0/remixicon.ttf?t=1690730386070') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('https://cdn.staticfile.org/remixicon/3.5.0/remixicon.svg?t=1690730386070#remixicon') format('svg'); /* iOS 4.1- */
   font-display: swap;
 }
 

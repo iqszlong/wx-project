@@ -23,7 +23,7 @@ const config = {
   },
   framework: "vue3",
   compiler: {
-    type: 'webpack5',
+    type: "webpack5",
     // 仅 webpack5 支持依赖预编译配置
     prebundle: {
       enable: false,
@@ -50,8 +50,11 @@ const config = {
     ],
     data: `@import "@nutui/nutui-taro/dist/styles/variables.scss";`,
   },
-  
+
   mini: {
+    optimizeMainPackage: {
+      enable: true,
+    },
     postcss: {
       pxtransform: {
         enable: true,
@@ -72,6 +75,25 @@ const config = {
           generateScopedName: "[name]__[local]___[hash:base64:5]",
         },
       },
+    },
+    webpackChain: (chain, webpack) => {
+      chain.merge({
+        plugin: {
+          install: {
+            plugin: require("terser-webpack-plugin"),
+            args: [
+              {
+                terserOptions: {
+                  compress: true, // 默认使用terser压缩
+                  // mangle: false,
+                  keep_classnames: true, // 不改变class名称
+                  keep_fnames: true, // 不改变函数名称
+                },
+              },
+            ],
+          },
+        },
+      });
     },
   },
   h5: {
@@ -94,7 +116,7 @@ const config = {
   },
 };
 
-module.exports = function(merge) {
+module.exports = function (merge) {
   console.log("====================================");
   console.log(process.env.NODE_ENV);
   console.log("====================================");

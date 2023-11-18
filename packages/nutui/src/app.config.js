@@ -25,6 +25,7 @@ export default defineAppConfig({
       desc: "你的位置信息将用于确定附近商店",
     },
   },
+  lazyCodeLoading: 'requiredComponents',
   requiredPrivateInfos: ["getLocation","chooseAddress"],
   window: {
     backgroundTextStyle: "light",

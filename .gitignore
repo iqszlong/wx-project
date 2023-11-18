@@ -29,7 +29,6 @@ pnpm-lock.yaml
 *.sw?
 *.log
 
-packages/syjg/
-packages/nbp/
-packages/inyt/
-packages/df-wx/
+
+packages/**
+!packages/nutui

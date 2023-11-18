@@ -30,7 +30,8 @@ const config = {
       },
     ],
     "taro-plugin-pinia",
-  ], // 插件包
+  ], 
+  // 插件包
   defineConstants: {},
   copy: {
     patterns: [],

@@ -5,8 +5,8 @@
 
         <div class="product-list">
             <div class="product-item" v-for="item of pList" :key="item.id">
-                <shopCartItem :img-url="item.goodsPicUrl" :title="item.goodsName" :price="`${item.goodsPrice}`"
-                    :data="item" :min="1">
+                <shopCartItem :img-url="item.goodsPicUrl" :title="item.goodsName" :price="`${item.goodsPrice}`" :data="item"
+                    :min="1">
 
                 </shopCartItem>
             </div>
@@ -21,15 +21,17 @@
 
 
         <!-- 日期弹窗 -->
-        <nut-datepicker v-model="currentDate" :min-date="minDate" v-model:visible="popDate" :three-dimensional="false"
-            @confirm="confirmDate">
-        </nut-datepicker>
+        <nut-popup position="bottom" v-model:visible="popDate">
+            <nut-date-picker v-model="currentDate" :min-date="minDate" :three-dimensional="false" @confirm="confirmDate">
+            </nut-date-picker>
+        </nut-popup>
 
 
         <!-- 时间弹窗 -->
-        <nut-picker v-model:visible="popTime" :columns="timeColumns" title="送达时间段" @confirm="confirmTime"
-            :threeDimensional="false">
-        </nut-picker>
+        <nut-popup position="bottom" v-model:visible="popTime">
+            <nut-picker :columns="timeColumns" title="送达时间段" @confirm="confirmTime" :threeDimensional="false">
+            </nut-picker>
+        </nut-popup>
 
 
 

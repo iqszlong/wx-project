@@ -5,10 +5,10 @@
         <nut-empty image="empty" description="无内容"></nut-empty>
       </div>
     </template>
-    <nut-addresslist :data="list" :dataMapOptions="dataMapOptions" @handelEditIcon="editClick" @handelDelIcon="delClick"
-      @addAddressClick="addAddress">
+    <nut-address-list :data="list" :data-options="dataMapOptions" @edit-icon="editClick" @del-icon="delClick"
+      @add="addAddress">
 
-    </nut-addresslist>
+    </nut-address-list>
 
     <nut-dialog title="确认删除" v-model:visible="delPop" @cancel="delPop = false" @ok="delPost" />
 

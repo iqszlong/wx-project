@@ -3,13 +3,13 @@
         <div class="n-space">
             <nut-button v-if="isShowBack" class="btn-ctrl" type="default" size="small" @click="goBack" style="border:none;">
                 <template #icon>
-                    <IconFont font-class-name="remixicon" class-prefix="ri" name="arrow-left-line"></IconFont>
+                    <IconFont name="left"></IconFont>
                 </template>
             </nut-button>
             <nut-button v-if="isShowHome" class="btn-ctrl" type="default" size="small"
                 @click="switchTab('/pages/index/index')" style="border:none;">
                 <template #icon>
-                    <IconFont font-class-name="remixicon" class-prefix="ri" name="home-4-line"></IconFont>
+                    <IconFont name="home"></IconFont>
                 </template>
             </nut-button>
             <slot name="left"></slot>

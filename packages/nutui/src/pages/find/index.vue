@@ -3,9 +3,9 @@
     <TopBar class="top-bar-bg" :title="title" :setPlace="true"></TopBar>
 
 
-    <!-- <img src="https://img.server.com/picture/imgtemp/RM036.jpg" :style="{width:'100%'}" alt="" mode="widthFix" /> -->
 
-    <IconFont font-class-name="remixicon" class-prefix="ri" name="home-7-line" ></IconFont>
+
+    发现页面
    
 
     <nut-toast :msg="msg" v-model:visible="show" :type="type" :cover="cover" />
@@ -14,10 +14,8 @@
 
 <script>
 import { reactive, toRefs } from 'vue';
-import { IconFont } from '@nutui/icons-vue-taro';
 export default {
   components: {
-    IconFont
   },
   setup() {
     const state = reactive({

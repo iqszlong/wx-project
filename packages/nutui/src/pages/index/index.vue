@@ -5,28 +5,57 @@
       <img src="//img.server.com/pinterest/fbd7aff4f39ffa4a9f6f7b222b244237.jpg" :style="{ width: '100%' }" alt=""
         mode="widthFix" />
     </view> -->
-    <view>
-      <IconFont font-class-name="remixicon" class-prefix="ri" name="home-7-line"></IconFont>
-      版本号：{{ global.version }}</view>
-    <view>
-      {{ msg }}
-    </view>
-    <nut-button type="primary" @click="handleClick('text', msg2, true)">点我</nut-button>
-    <nut-button @click="goPage('/pages/notfind/index')">404页面</nut-button>
-    <nut-button @click="setRequest">发起测试请求</nut-button>
-    <nut-button open-type="share">分享</nut-button>
 
-    <nut-button type="primary">
-      <template #icon>
-        <IconFont font-class-name="remixicon" class-prefix="ri" name="delete-bin-5-line"></IconFont>
-      </template>
-    </nut-button>
-    <nut-button type="default">默认</nut-button>
 
-    <nut-toast :msg="msg2" v-model:visible="show" :type="type" :cover="cover" />
-    
+    <NutCellGroup :title="wellcome" :desc="`版本号${global.version}`">
+      <NutCell title="404页面" is-link @click="goPage('/pages/notfind/index')"></NutCell>
+    </NutCellGroup>
+
+
+
+
+    <NutCellGroup title='微信原生功能测试'>
+      <NutCell>
+        <NutSpace wrap>
+          <nut-button open-type="share">分享</nut-button>
+        </NutSpace>
+      </NutCell>
+    </NutCellGroup>
+    <NutCellGroup title='按钮效果'>
+      <NutCell>
+        <NutSpace wrap>
+          <nut-button type="primary" @click="handleClick('text', msg2, true)">信息提示toast</nut-button>
+          <nut-button @click="setRequest">发起测试请求</nut-button>
+        </NutSpace>
+      </NutCell>
+    </NutCellGroup>
+
+    <NutCellGroup title="第三方图标" desc="使用请打开app.js中remixicon.css注释。下方是图标效果。注意：使用后打包文件会增加100k">
+      <NutCell>
+        <NutSpace wrap>
+          <IconFont font-class-name="remixicon" class-prefix="ri" name="home-7-line"></IconFont>
+          <nut-button>
+            <template #icon>
+              <IconFont font-class-name="remixicon" class-prefix="ri" name="delete-bin-5-line"></IconFont>
+            </template>
+          </nut-button>
+        </NutSpace>
+      </NutCell>
+
+    </NutCellGroup>
+
+    <NutCellGroup title="原始图标">
+      <NutCell>
+        <NutSpace wrap>
+          <IconFont name="JD"></IconFont>
+        </NutSpace>
+      </NutCell>
+    </NutCellGroup>
+
+
+    <nut-toast :msg="msg" v-model:visible="show" :type="type" :cover="cover" />
+
   </view>
-  
 </template>
 
 <script>
@@ -49,8 +78,8 @@ export default {
     const store = useSystemStore();
 
     const state = reactive({
-      msg: '欢迎使用 NutUI3.0 开发小程序',
-      msg2: '你成功了～',
+      wellcome: '欢迎使用 NutUI 开发小程序',
+      msg: '你成功了～',
       type: 'text',
       show: false,
       cover: false
@@ -63,12 +92,6 @@ export default {
       state.cover = cover;
     };
 
-    const goPage = (url) => {
-
-      // 路由文档
-      // http://lblblib.gitee.io/tarojs-router-next/guide/quike/start
-      utils.router.goPage(url, { params: { id: 1 } })
-    }
 
     // 发起请求
     const setRequest = () => {
@@ -111,7 +134,9 @@ export default {
     return {
       ...toRefs(state),
       handleClick,
-      goPage,
+      // 路由文档
+      // http://lblblib.gitee.io/tarojs-router-next/guide/quike/start
+      goPage: (url) => utils.router.goPage(url, { params: { id: 1 } }),
       setRequest,
       global: computed(() => utils.global.getValue())
     }
@@ -120,10 +145,6 @@ export default {
 </script>
 
 <style lang="scss">
-.index {
-  text-align: center;
-}
-
 img {
   display: block;
   max-width: 100%;

@@ -1,7 +1,6 @@
 import { createApp } from "vue";
 
-// import nutui from "@/components/nutui";
-// import { IconFont } from '@nutui/icons-vue-taro';
+
 import { createPinia } from "pinia";
 import components from "@/components/index";
 // import lazywx from "@lazy/components-wx";
@@ -10,8 +9,8 @@ import utils from "@/utils/index";
 import { setGlobalDataPlugin } from "@tarojs/taro";
 
 import "./app.scss";
-// 图标
-import "@/assets/styles/remixicon.css";
+// 图标使用请打开注释
+// import "@/assets/styles/remixicon.css";
 
 const App = createApp({
   // 可以使用所有的 Vue 生命周期方法
@@ -34,9 +33,7 @@ const App = createApp({
 
 App.use(createPinia())
   .use(components)
-  //.use(IconFont)
   // .use(lazywx)
-  // .use(nutui)
   .use(eventBus)
   .use(setGlobalDataPlugin, { version: 1 }); // 公共变量;
 

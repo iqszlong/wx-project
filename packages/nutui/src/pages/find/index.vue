@@ -1,12 +1,11 @@
 <template>
   <view class="find">
     <TopBar class="top-bar-bg" :title="title" :setPlace="true"></TopBar>
-    <NutCellGroup :title="`版本号${global.version}`">
+
+    <NutCellGroup :title="`版本号${global.version}`" :desc="``">
       <NutCell title="404页面" is-link @click="goPage('/pages/notfind/index')"></NutCell>
       <NutCell title="登录页" is-link @click="goPage('/pages/login/index')"></NutCell>
     </NutCellGroup>
-
-
 
 
     <NutCellGroup title='微信原生功能测试'>
@@ -83,7 +82,6 @@ export default {
 
     const handleClick = (type, msg, cover = false) => {
       state.show = true;
-      state.msg2 = msg;
       state.type = type;
       state.cover = cover;
     };

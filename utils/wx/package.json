@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tarojs/taro": "^3.5.9"
+    "@tarojs/taro": "^3.6.20"
   }
 }

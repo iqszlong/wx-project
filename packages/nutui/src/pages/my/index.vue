@@ -76,7 +76,7 @@ export default {
 
 
     const img = {
-      bg:`${process.env.FILEHOST}/common/mesh-bg.jpg`
+      bg:utils.imgPath(`common/mesh-bg.jpg`)
     }
 
 

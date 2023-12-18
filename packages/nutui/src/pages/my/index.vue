@@ -3,12 +3,14 @@
   <view v-else class="my">
     <view class="user-header-card" :style="{backgroundImage:`url(${bg})`}">
       <div class="inner" v-if="userInfo == null">
-        <nut-avatar class="avatar" size="large" :url="defaultAvatar">
+        <nut-avatar class="avatar" size="large">
+          <img :src="defaultAvatar"/>
         </nut-avatar>
         登录中……
       </div>
-      <div v-else class="inner" @click="goPage('/pages/my/baseInfo')">
-        <nut-avatar class="avatar" size="large" :url="userInfo.avatarUrl">
+      <div v-else class="inner" @click="goPage('/settings/pages/user/baseInfo')">
+        <nut-avatar class="avatar" size="large" >
+          <img :src="userInfo.avatarUrl"/>
         </nut-avatar>
         {{userInfo.nickName}}
       </div>

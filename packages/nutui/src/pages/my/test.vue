@@ -5,7 +5,9 @@
     <view>
       <!-- 微信原生获取头像 -->
       <nut-button class="avatar-wrapper" open-type="chooseAvatar" @chooseavatar="onChooseAvatar">
-        <nut-avatar class="avatar" size="large" v-if="userInfo.avatarUrl != null" :url="userInfo.avatarUrl"></nut-avatar>
+        <nut-avatar class="avatar" size="large" v-if="userInfo.avatarUrl != null" >
+          <img :src="userInfo.avatarUrl"/>
+        </nut-avatar>
       </nut-button>
     </view>
 
@@ -41,12 +43,11 @@
 <script>
 import Taro from '@tarojs/taro';
 import { Toast } from '@nutui/nutui-taro';
+import utils from '@/utils/index';
 
 
-const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0';
-
-//const testAvatar = 'https://img.server.com/picture/wallpaper/AnnieChui/Annie%20Chui%20-%20[A4Y]%20Set%2009%20(fishnet%20bodysuit)/anni09a039.jpg';
-
+//const testAvatar = '';
+const {wxLogin,wxDevice} = utils;
 export default {
   components: {
   },
@@ -57,7 +58,7 @@ export default {
       show: false,
       userInfo:{
         nickName:'',
-        avatarUrl: defaultAvatarUrl,
+        avatarUrl: wxLogin.defaultAvatarUrl,
       },
     }
   },
@@ -65,8 +66,11 @@ export default {
     onChooseAvatar(e) {
       const { avatarUrl } = e.detail;
       this.userInfo.avatarUrl = null;
+      // console.log(avatarUrl);
+      const avatarBAse64 = wxDevice.transformImgData(avatarUrl);
+      // console.log(avatarBAse64);
       this.$nextTick(() => {
-        this.userInfo.avatarUrl = avatarUrl;
+        this.userInfo.avatarUrl =  avatarBAse64;
       })
     },
     getPhoneNumber (e) {
@@ -160,7 +164,7 @@ export default {
 .avatar-wrapper{
   border:none;
   height: initial;
-  padding:4px;
+  padding:0;
   border-radius: 50%;
 }
 

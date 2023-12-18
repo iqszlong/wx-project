@@ -5,11 +5,16 @@ export default defineAppConfig({
     "pages/find/index",
     "pages/cart/index",
     "pages/my/index",
-
-    "pages/login/index",
-    "pages/notfind/index",
   ],
   subpackages: [
+    {
+      root: "system",
+      name: "system",
+      pages: [
+        "pages/login/index",
+        "pages/notfind/index",
+      ],
+    },
     {
       root: "shop",
       name: "shop",
@@ -28,6 +33,7 @@ export default defineAppConfig({
       pages:[
         "pages/index/index",
         "pages/user/baseInfo",
+        "pages/user/test",
         "pages/address/index",
         "pages/address/add",
         "pages/address/edit",

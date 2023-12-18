@@ -43,8 +43,8 @@ page {
 }
 
 .n-loading {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     flex: 1;
     display: flex;
     justify-content: center;
@@ -52,8 +52,8 @@ page {
 }
 
 .n-empty {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     flex: 1;
     display: flex;
     justify-content: center;

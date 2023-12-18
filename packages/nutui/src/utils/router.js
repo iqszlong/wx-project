@@ -8,7 +8,7 @@ import {
 import utils from ".";
 
 
-const whiteList = ["/pages/index/index","/pages/login/index","/pages/notfind/index","/pages/map/index"];
+const whiteList = ["/system/pages/login/index","/system/pages/notfind/index"];
 
 // 跳转页面
 const goPage = async (url, data = {}, fn) => {
@@ -57,8 +57,10 @@ const getParams = () => Router.getParams();
 // 中间件
 const Logger = async (ctx, next) => {
   // console.log("第一个中间件执行：", ctx.route.url);
-  if (!utils.wxLogin.hasToken() && !whiteList.includes(ctx.route.url)) {
-    goPage("/pages/login/index");
+  const {wxLogin} = utils;
+  if (!wxLogin.hasToken() && !whiteList.includes(ctx.route.url)) {
+    // console.log("跳转到登录页面");
+    goPage("/system/pages/login/index");
     return;
   }
   await next(); // 执行下一个中间件
@@ -67,13 +69,14 @@ const Logger = async (ctx, next) => {
 // 中间件 获取用户数据
 const UserData = async (ctx, next) => {
   // console.log("第二个中间件执行：", ctx.route.url);
-  if (utils.wxLogin.hasToken()) {
-    utils.user.getUserData();
+  const {wxLogin,user} = utils;
+  if (wxLogin.hasToken()) {
+    user.getUserData();
   }
   await next(); // 执行下一个中间件
 };
 
-registerMiddlewares([Logger, UserData]);
+registerMiddlewares([Logger]);
 
 // 路由回退监听
 registerRouterBackListener((to, from) => {
@@ -85,6 +88,7 @@ registerRouterBackListener((to, from) => {
 });
 
 export {
+  Router,
   goPage,
   goHomeRelaunch,
   relaunch,

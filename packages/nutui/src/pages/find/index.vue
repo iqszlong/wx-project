@@ -3,8 +3,8 @@
     <TopBar class="top-bar-bg" :title="title" :setPlace="true"></TopBar>
 
     <NutCellGroup :title="`版本号${global.version}`" :desc="``">
-      <NutCell title="404页面" is-link @click="goPage('/pages/notfind/index')"></NutCell>
-      <NutCell title="登录页" is-link @click="goPage('/pages/login/index')"></NutCell>
+      <NutCell title="404页面" is-link @click="goPage('/system/pages/notfind/index')"></NutCell>
+      <NutCell title="登录页" is-link @click="goPage('/system/pages/login/index')"></NutCell>
     </NutCellGroup>
 
 
@@ -72,6 +72,8 @@ export default {
 
     const store = useSystemStore();
 
+    const {global,router} = utils
+
     const state = reactive({
       title: '发现',	
       msg: '你成功了～',
@@ -130,9 +132,9 @@ export default {
       handleClick,
       // 路由文档
       // http://lblblib.gitee.io/tarojs-router-next/guide/quike/start
-      goPage: (url) => utils.router.goPage(url, { params: { id: 1 } }),
+      goPage: (url) => router.goPage(url, { params: { id: 1 } }),
       setRequest,
-      global: computed(() => utils.global.getValue())
+      global: computed(() => global.getValue())
     }
   }
 }

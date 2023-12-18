@@ -23,16 +23,20 @@ const config = {
       "tarojs-router-next-plugin",
       {
         watch: false,
-        // packages: [
-        //   {
-        //     name: "shop",
-        //     pagePath: path.resolve(__dirname, "..", "src/shop/pages"),
-        //   },
-        //   {
-        //     name: "settings",
-        //     pagePath: path.resolve(__dirname, "..", "src/settings/pages"),
-        //   },
-        // ],
+        packages: [
+          {
+            name: "system",
+            pagePath: path.resolve(__dirname, "..", "src/system/pages"),
+          },
+          {
+            name: "shop",
+            pagePath: path.resolve(__dirname, "..", "src/shop/pages"),
+          },
+          {
+            name: "settings",
+            pagePath: path.resolve(__dirname, "..", "src/settings/pages"),
+          },
+        ],
       },
     ],
     "taro-plugin-pinia",
@@ -49,6 +53,7 @@ const config = {
     // 仅 webpack5 支持依赖预编译配置
     prebundle: {
       enable: false,
+      exclude: ['tarojs-router-next'],
     },
   },
   // 别名 同步修改 jsconfig.json

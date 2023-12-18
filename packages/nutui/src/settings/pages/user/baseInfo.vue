@@ -5,7 +5,8 @@
     <view class="info-head">
       <!-- 微信原生获取头像 -->
       <nut-button class="avatar-wrapper" open-type="chooseAvatar" @chooseavatar="onChooseAvatar">
-        <nut-avatar class="avatar" size="large" :url="user == null ? defaultAvatarUrl : user.avatarUrl">
+        <nut-avatar class="avatar" size="large">
+          <img  :src="user == null ? defaultAvatarUrl : user.avatarUrl"/>
         </nut-avatar>
       </nut-button>
     </view>
@@ -16,7 +17,7 @@
     <nut-input v-model="user.nickName" label="昵称" type="nickname" @blur="nickChange" />
 
     <nut-input v-model="user.phone" label="手机号" type="text">
-      <template #button>
+      <template #right>
         <nut-button size="small" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">获取微信手机号</nut-button>
       </template>
     </nut-input>
@@ -25,11 +26,11 @@
       <div class="label">
         性别
       </div>
-      <nut-radiogroup v-model="user.gender" direction="horizontal">
+      <nut-radio-group v-model="user.gender" direction="horizontal">
         <nut-radio shape="button" :label="0">未知</nut-radio>
         <nut-radio shape="button" :label="1">男</nut-radio>
         <nut-radio shape="button" :label="2">女</nut-radio>
-      </nut-radiogroup>
+      </nut-radio-group>
     </div>
 
     <div v-if="user.id" class="n-form-item">
@@ -65,7 +66,7 @@
 
 import { reactive, toRefs, watch, onMounted, computed, nextTick } from 'vue';
 import utils from '@/utils/';
-import api from '@/api/';
+import api from '@/api/index';
 import { useSystemStore } from '@/store/index';
 
 export default {
@@ -74,6 +75,7 @@ export default {
   setup() {
 
     const store = useSystemStore();
+    const {wxDevice} = utils;
 
     // 页面数据
     const pageData = reactive({
@@ -117,8 +119,8 @@ export default {
     }
 
     const nickChange = (e) => {
-      // console.log(e);
-      pageData.user.nickName = e;
+      console.log(e);
+      pageData.user.nickName = e.detail.value;
     }
 
 
@@ -136,9 +138,11 @@ export default {
 
     const onChooseAvatar = (e) => {
       const { avatarUrl } = e.detail;
+      // console.log(avatarUrl);
       pageData.user.avatarUrl = null;
+      const avatarBAse64 = wxDevice.transformImgData(avatarUrl);
       nextTick(() => {
-        pageData.user.avatarUrl = avatarUrl;
+        pageData.user.avatarUrl = avatarBAse64;
       })
     }
 
@@ -233,7 +237,7 @@ export default {
 .avatar-wrapper {
   border: none;
   height: initial;
-  padding: 4px;
+  padding: 0;
   border-radius: 50%;
 }
 

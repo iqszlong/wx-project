@@ -20,19 +20,19 @@
       <div class="n-card">
         <nut-grid :column-num="4" :border="false" clickable>
           <nut-grid-item class="grid-item" @click="goPage('/shop/pages/order/order',{params:{status:1}})">
-            <IconFont size="24" font-class-name="remixicon" class-prefix="ri" name="coin-line" />
+            <IconFont size="24px" font-class-name="remixicon" class-prefix="ri" name="coin-line" />
             <span>待付款</span>
           </nut-grid-item>
           <nut-grid-item class="grid-item" @click="goPage('/shop/pages/order/order',{params:{status:4}})">
-            <IconFont size="24" font-class-name="remixicon" class-prefix="ri" name="chat-smile-2-line" />
+            <IconFont size="24px" font-class-name="remixicon" class-prefix="ri" name="chat-smile-2-line" />
             <span>待评价</span>
           </nut-grid-item>
           <nut-grid-item class="grid-item" @click="goPage('/shop/pages/order/order',{params:{status:5}})">
-            <IconFont size="24" font-class-name="remixicon" class-prefix="ri" name="exchange-cny-line" />
+            <IconFont size="24px" font-class-name="remixicon" class-prefix="ri" name="exchange-cny-line" />
             <span>退款/售后</span>
           </nut-grid-item>
           <nut-grid-item class="grid-item" @click="goPage('/shop/pages/order/order')">
-            <IconFont size="24" font-class-name="remixicon" class-prefix="ri" name="file-list-3-line" />
+            <IconFont size="24px" font-class-name="remixicon" class-prefix="ri" name="file-list-3-line" />
             <span>全部订单</span>
           </nut-grid-item>
         </nut-grid>
@@ -59,13 +59,16 @@ import utils from '@/utils/index';
 import { useSystemStore } from '@/store/index';
 import { IconFont } from '@nutui/icons-vue-taro';
 
+
+const {wxLogin,file,router} = utils
+
 export default {
   components: {
     IconFont
   },
   onShow() {
     // console.log('onShow');
-    this.hasToken = utils.wxLogin.hasToken();
+    this.hasToken = wxLogin.hasToken();
   },
   setup() {
 
@@ -75,11 +78,6 @@ export default {
       title: '我的',
       path: '/pages/my/index',
     })
-
-
-    const img = {
-      bg:utils.imgPath(`common/mesh-bg.jpg`)
-    }
 
 
     const tips = reactive({
@@ -92,7 +90,7 @@ export default {
     const state = reactive({
       hasToken: false,
       userInfo: computed(() => store.user),// 用户数据
-      bg:img.bg,
+      bg:file.imgPath(`common/mesh-bg.jpg`)
     });
 
 
@@ -100,8 +98,8 @@ export default {
       ...toRefs(state),
       ...toRefs(tips),
       ...toRefs(page),
-      goPage: (url,data) => utils.router.goPage(url,data),
-      defaultAvatar: utils.wxLogin.defaultAvatarUrl,
+      goPage: (url,data) => router.goPage(url,data),
+      defaultAvatar: wxLogin.defaultAvatarUrl,
     }
   },
   methods: {
@@ -134,6 +132,10 @@ export default {
     flex-direction: column;
     gap: 8px;
     align-items: center;
+  }
+
+  .avatar {
+    overflow: hidden;
   }
 }
 

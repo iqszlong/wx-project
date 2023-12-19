@@ -1,6 +1,6 @@
 import Taro from "@tarojs/taro";
 
-export const showToast = ({ title = "成功", icon, duration = 2000 }) => {
+export const showToast = ({ title = "成功", icon, duration = 2000 } = {}) => {
   return Taro.showToast({
     title,
     icon,
@@ -8,14 +8,14 @@ export const showToast = ({ title = "成功", icon, duration = 2000 }) => {
   });
 };
 
-export const showModal = ({ title = "提示", content = "" }) => {
+export const showModal = ({ title = "提示", content = "" } = {}) => {
   return Taro.showModal({
     title,
     content,
   });
 };
 
-export const showLoading = ({ title = "加载中" }) => {
+export const showLoading = ({ title = "加载中" } = {}) => {
   return Taro.showLoading({
     title,
   });

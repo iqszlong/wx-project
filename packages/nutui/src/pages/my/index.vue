@@ -60,7 +60,7 @@ import { useSystemStore } from '@/store/index';
 import { IconFont } from '@nutui/icons-vue-taro';
 
 
-const {wxLogin,file,router} = utils
+const {wxLogin,filePath,router} = utils
 
 export default {
   components: {
@@ -90,7 +90,7 @@ export default {
     const state = reactive({
       hasToken: false,
       userInfo: computed(() => store.user),// 用户数据
-      bg:file.imgPath(`common/mesh-bg.jpg`)
+      bg:filePath.imgPath(`common/mesh-bg.jpg`)
     });
 
 

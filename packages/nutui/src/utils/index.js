@@ -7,7 +7,7 @@ import * as state from "./state"; // 状态
 import * as order from "./order"; // 订单
 import * as day from "./dayjs"; // 日期库
 import * as global from "./global"; // 公共变量
-import * as file from "./file"; 
+import * as filePath from "./filePath"; 
 export default {
   request,
   router,
@@ -16,7 +16,7 @@ export default {
   state,
   day,
   global,
-  file,
+  filePath,
   ...lazyUtils,
   ...wxUtils,
 };

@@ -15,9 +15,10 @@ export const showModal = ({ title = "提示", content = "" } = {}) => {
   });
 };
 
-export const showLoading = ({ title = "加载中" } = {}) => {
+export const showLoading = ({ title = "加载中", mask = true } = {}) => {
   return Taro.showLoading({
     title,
+    mask,
   });
 };
 

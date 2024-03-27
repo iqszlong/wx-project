@@ -39,9 +39,10 @@ export default defineAppConfig({
         "pages/address/edit",
       ]
     },{
-      root: "map",
-      name: "map",
+      root: "misc",
+      name: "misc",
       pages:[
+        "pages/calculator/index",
         "pages/fengmap/index",
         "pages/map/index",
         "pages/ooomap/index",

@@ -6,5 +6,18 @@
     "compileHotReLoad": false,
     "urlCheck": false
   },
-  "libVersion": "3.2.1"
+  "libVersion": "3.2.1",
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "misc/pages/calculator/index",
+          "pathName": "misc/pages/calculator/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
+  }
 }

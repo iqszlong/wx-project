@@ -20,6 +20,7 @@ declare module 'vue' {
     LoginView: typeof import('./src/components/loginView/index.vue')['default']
     MinBtn: typeof import('./src/components/shopCartList/minBtn.vue')['default']
     NutActionsheet: typeof import('@nutui/nutui-taro')['Actionsheet']
+    NutActionSheet: typeof import('@nutui/nutui-taro')['ActionSheet']
     NutAddress: typeof import('@nutui/nutui-taro')['Address']
     NutAddressList: typeof import('@nutui/nutui-taro')['AddressList']
     NutAvatar: typeof import('@nutui/nutui-taro')['Avatar']

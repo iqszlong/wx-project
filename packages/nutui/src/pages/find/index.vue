@@ -7,6 +7,10 @@
       <NutCell title="登录页" is-link @click="goPage('/system/pages/login/index')"></NutCell>
     </NutCellGroup>
 
+    <NutCellGroup :title="`杂项测试`" :desc="``">
+      <NutCell title="计算器" is-link @click="goPage('/misc/pages/calculator/index')"></NutCell>
+    </NutCellGroup>
+
 
     <NutCellGroup title='微信原生功能测试'>
       <NutCell>

@@ -36,6 +36,10 @@ const config = {
             name: "settings",
             pagePath: path.resolve(__dirname, "..", "src/settings/pages"),
           },
+          {
+            name: "map",
+            pagePath: path.resolve(__dirname, "..", "src/map/pages"),
+          },
         ],
       },
     ],

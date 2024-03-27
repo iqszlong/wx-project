@@ -1,0 +1,530 @@
+<template>
+  <view class="map-layout">
+    <TopBar class="top-bar-bg" title="地图预览" :setPlace="true"></TopBar>
+    <view class="container">
+      <!-- 加载地图容器 -->
+      <canvas
+        type="webgl"
+        id="fengmap"
+        style="width: 100%; height: 100%; z-index: 0"
+        disable-scroll
+        @touchstart="handleTouchStart"
+        @touchmove="handleTouchMove"
+        @touchend="handleTouchEnd"
+      >
+        <!-- 楼层控件 -->
+        <FMScrollGroupsControl
+          v-if="mapLoaded"
+          id="scrollGroupsControl"
+          :focusGroupID="focusGroupID"
+          :groupIDs="mapGroupIDs"
+          :allLayer="isAllLayer"
+          showBtnCount="6"
+          @switchGroup="handleSwitchGroup"
+          @switchLayers="handleSwitchLayers"
+        />
+      </canvas>
+      <!-- 2d画布 -->
+      <canvas
+        type="2d"
+        id="temp"
+        style="
+          pointer-events: none;
+          position: absolute;
+          left: -1000px;
+          z-index: 0;
+        "
+      ></canvas>
+      <!-- 按钮组 -->
+      <view class="btn-groups" v-if="mapLoaded">
+        <button type="default" size="mini" @tap="handleStartNavi">
+          开始导航
+        </button>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import Taro from "@tarojs/taro";
+// import { fengmap } from "//file.server.com/fengmap.miniprogram.min.js";
+import { ref, reactive, toRefs, onMounted, onBeforeUnmount } from "vue";
+import utils from "@/utils/index";
+import compassBg from "./images/compass_bg.png";
+import compassFg from "./images/compass_fg.png";
+import startImages from "./images/start.png";
+import endImages from "./images/end.png";
+import pointerImages from "./images/pointer.png";
+import FMScrollGroupsControl from "./components/FMScrollGroupsControl.vue";
+import { locationCoords, naviRealPoints } from "./coordinates";
+import { fengmap } from "./fengmap.miniprogram.min";
+
+export default {
+  components: {
+    FMScrollGroupsControl,
+  },
+  setup() {
+    const mapInfos = reactive({
+      mapLoaded: false, //地图是否加载完成
+      focusGroupID: 1,
+      mapGroupIDs: [],
+      isAllLayer: false,
+      startNaviScaleLevel: 20, // 导航前地图缩放比例
+      naviScaleLevel: 19, // 导航过程中地图缩放比例
+    });
+    let fmap = null; // map对象
+    let canvas = null; // 地图容器3D
+    let tmpCanvas = null; // 地图容器2D
+    let locationMarker = null; // 定位点marker
+    let navi = null; // 导航对象
+    let analyser = null; // 路径分析对象
+
+    // 模拟导肮相关参数
+    const simulateOptions = reactive({
+      coordsData: [], // 路径线真实坐标点数据
+      minOffsetDis: 3, // 路径偏移的最小距离，在最小距离以内坐标点自动约束到路径线上
+      maxOffsetDis: 15, // 路径偏移的最大距离，单位：米
+      maxEndDistance: 5, // 距离终点的最大距离，结束导航 单位：米
+      coordIndex: 0, // 定位点下标
+      currentCoord: null, //当前定位点原始坐标
+      naviInt: null, // 导航请求定位点定时器
+      naviStop: false, // 导航是否结束
+      naviSwitch: true, // 导航开关
+    });
+    /** ============== 基础事件 =============== */
+    // 初始化创建地图
+    const onCreateMap = () => {
+      const mapOptions = {
+        // 必要，地图容器
+        canvas: canvas,
+        // 必要，2d画布
+        tempCanvas: tmpCanvas,
+        // 初始二维/三维状态,默认3D显示
+        defaultViewMode: fengmap.FMViewMode.MODE_2D,
+        // 设置初始指南针的偏移量
+        compassOffset: [40, 40],
+        // 设置指南针大小
+        compassSize: 36,
+        // 地图默认旋转角度
+        defaultControlsPose: 0,
+        // 地图默认倾斜角
+        defaultTiltAngle: 60,
+        level: 5,
+        mapZoom: 10,
+        //必要，地图应用名称，通过蜂鸟云后台创建
+        appName: "蜂鸟研发SDK_2_0",
+        //必要，地图应用密钥，通过蜂鸟云后台获取
+        key: "57c7f309aca507497d028a9c00207cf8",
+        // 主题ID
+        themeID: "1580453922356207618",
+      };
+
+      if (!fengmap) {
+        return;
+      }
+      //初始化地图对象
+      fmap = new fengmap.FMMap(mapOptions);
+
+      // //打开Fengmap服务器的地图数据和主题
+      const fmapID = "10347";
+      fmap.openMapById(fmapID, (error) => {
+        //打印错误信息
+        console.log(error);
+      });
+
+      // fengmap.FMNaviAnalyser 是可分析最短路径、最快路径并返回分析结果的路径类
+      analyser = new fengmap.FMNaviAnalyser(fmap);
+
+      // 地图加载完成事件
+      fmap.on("loadComplete", () => {
+        console.log("地图加载完成");
+
+        mapInfos.mapLoaded = true;
+
+        // 加载楼层切换控件
+        initFloorControl();
+        // 显示指北针
+        initShowCompass();
+        // 添加初始定位点图标
+        addLocationMarker(naviRealPoints[0]);
+        // 地图加载完执行画导航路径
+        initCreateNavi(naviRealPoints);
+      });
+    };
+    // 设置楼层数据
+    const initFloorControl = () => {
+      const groupIDs = fmap.listGroups.map((ls) => {
+        return {
+          alias: ls.alias,
+          gid: ls.gid,
+          gname: ls.gname,
+        };
+      });
+      mapInfos.mapGroupIDs = groupIDs.reverse();
+      mapInfos.focusGroupID = fmap.focusGroupID;
+    };
+    // 显示指北针
+    const initShowCompass = () => {
+      fmap.compass.setBgImage(compassBg); //设置背景图片
+      fmap.compass.setFgImage(compassFg); //设置前景图片
+      fmap.showCompass = true;
+
+      // 点击指北针事件, 使角度归0
+      fmap.on("mapClickCompass", () => {
+        fmap.rotateTo({
+          //设置角度
+          to: 0,
+          //动画持续时间，默认为。3秒
+          duration: 0.3,
+          callback: function () {
+            //回调函数
+            console.log("rotateTo complete!");
+          },
+        });
+      });
+    };
+    // 创建导航
+    const initCreateNavi = (coords) => {
+      if (!navi) {
+        //初始化导航对象
+        navi = new fengmap.FMNavigation({
+          //地图对象
+          map: fmap,
+          //导航结果文字描述内容的语言类型参数, 目前支持中英文。参考FMLanguaeType。
+          naviLanguage: fengmap.FMLanguageType.ZH,
+          //导航中路径规划模式, 支持最短路径、最优路径两种。默认为MODULE_SHORTEST, 最短路径。
+          naviMode: fengmap.FMNaviMode.MODULE_SHORTEST,
+          //导航中的路线规划梯类优先级, 默认为PRIORITY_DEFAULT, 详情参考FMNaviPriority。
+          naviPriority: fengmap.FMNaviPriority.PRIORITY_DEFAULT,
+          //调用drawNaviLine绘制导航线时, 是否清除上次调用drawNaviLine绘制的导航线, 默认为true
+          autoClearNaviLine: true,
+          //导航线与楼层之间的高度偏移设置。默认是1。
+          lineMarkerHeight: 1.5,
+          // 设置导航线的样式
+          lineStyle: {
+            // 导航线样式
+            lineType: fengmap.FMLineType.FMARROW,
+            // 设置线的宽度
+            lineWidth: 6,
+            //设置线动画,false为动画
+            noAnimate: true,
+          },
+        });
+      }
+      //添加起点
+      navi.setStartPoint({
+        x: coords[0].x,
+        y: coords[0].y,
+        groupID: coords[0].groupID,
+        url: startImages,
+        size: 32,
+      });
+
+      //添加终点
+      navi.setEndPoint({
+        x: coords[1].x,
+        y: coords[1].y,
+        groupID: coords[1].groupID,
+        url: endImages,
+        size: 32,
+      });
+
+      // 画出导航线
+      navi.drawNaviLine();
+
+      // 解析定位点数据
+      simulateOptions.coordsData = locationCoords["seconedRoute"];
+
+      //监听导航事件
+      navi.on("walking", (data) => {
+        /**
+         * 当定位点偏离路径线大于约定的最大偏移距离时，进行路径重新规划
+         */
+        if (data.distance > simulateOptions.minOffsetDis) {
+          //在最小和最大偏移距离之间，坐标点用原始定位坐标
+          data.point = simulateOptions.currentCoord;
+        }
+
+        //更新定位图标的位置及旋转角度
+        setLocationMakerPosition(data.point, data.angle);
+        if (data.distance > simulateOptions.maxOffsetDis) {
+          console.log("路径偏移，重新规划路线");
+          return;
+        }
+
+        // 当剩余距离小于设置的距离终点的最小距离时，自动结束导航
+        if (data.remain < simulateOptions.maxEndDistance || data.remain == 0) {
+          console.log("距离小于设置的距离终点的最小距离，导航自动结束");
+          //结束导航
+          handleStopNavi();
+          simulateOptions.naviStop = true;
+          return;
+        }
+      });
+    };
+
+    /** =================== 系统滑动事件 ====================== */
+    // 手指触摸动作开始
+    const handleTouchStart = (e) => {
+      canvas.dispatchTouchEvent({
+        ...e,
+        type: "touchstart",
+      });
+    };
+    // 手指触摸后移动
+    const handleTouchMove = (e) => {
+      canvas.dispatchTouchEvent({
+        ...e,
+        type: "touchmove",
+      });
+    };
+    // 手指触摸动作结束
+    const handleTouchEnd = (e) => {
+      canvas.dispatchTouchEvent({
+        ...e,
+        type: "touchend",
+      });
+    };
+
+    /** =================== 导航事件 ====================== */
+    // 添加定位点marker
+    const addLocationMarker = (coord) => {
+      locationMarker = new fengmap.FMLocationMarker(fmap, {
+        //设置图片的路径
+        url: pointerImages,
+        //设置图片显示尺寸
+        size: 43,
+        //设置图片高度
+        height: 3,
+      });
+
+      //添加定位点标注
+      fmap.addLocationMarker(locationMarker);
+
+      //设置定位图标位置
+      setLocationMakerPosition(coord);
+    };
+    // 设置定位标注点位置信息
+    const setLocationMakerPosition = (coord, angle) => {
+      //设置定位图标旋转角度
+      if (angle) {
+        //定位点方向始终与路径线保持平行
+        locationMarker.rotateTo({
+          to: -angle,
+          duration: 0.5,
+        });
+        // //第一人称需旋转地图角度
+        // fmap.rotateTo({
+        //   to: angle,
+        //   time: 0.5,
+        // });
+      }
+
+      //不同楼层
+      let currentGid = fmap.focusGroupID;
+      if (currentGid !== coord.groupID) {
+        //重新设置聚焦楼层
+        handleSwitchGroup(coord.groupID);
+
+        //设置locationMarker的位置
+        locationMarker.setPosition({
+          //设置定位点的x坐标
+          x: coord.x,
+          //设置定位点的y坐标
+          y: coord.y,
+          //设置定位点所在楼层
+          groupID: coord.groupID,
+        });
+      }
+
+      //移动locationMarker
+      let data = {
+        //设置定位点的x坐标
+        x: coord.x,
+        //设置定位点的y坐标
+        y: coord.y,
+        //设置定位点所在楼层
+        groupID: coord.groupID,
+        time: 0.5,
+      };
+
+      //移动地图
+      fmap.moveTo({
+        x: coord.x,
+        y: coord.y,
+        groupID: coord.groupID,
+        time: 1,
+      });
+      //移动locationMarker
+      locationMarker.moveTo(data);
+    };
+    // 开始导航
+    const handleStartNavi = () => {
+      if (!simulateOptions.naviSwitch) {
+        return;
+      }
+
+      //导航结束之后再次点击开始导航，需重新进行路线规划及模拟定位点
+      if (simulateOptions.naviStop) {
+        initCreateNavi(naviRealPoints);
+        simulateOptions.naviStop = false;
+      }
+
+      //导航开关为true且已经加载完locationMarker是可进行导航操作
+      if (simulateOptions.naviSwitch && locationMarker) {
+        simulateOptions.naviSwitch = false;
+        simulateOptions.coordIndex = 0;
+        //切换聚焦楼层为起点开始楼层
+        if (navi.startMarker.groupID !== fmap.focusGroupID) {
+          handleSwitchGroup(navi.startMarker.groupID);
+        }
+        //将定位点定位到起点楼层
+        if (locationMarker.groupID != navi.startMarker.groupID) {
+          //设置locationMarker的位置
+          locationMarker.setPosition({
+            //设置定位点的x坐标
+            x: navi.startMarker.x,
+            //设置定位点的y坐标
+            y: navi.startMarker.y,
+            //设置定位点所在楼层
+            groupID: navi.startMarker.groupID,
+          });
+        }
+        //获取地图开始导航前地图缩放比例
+        mapInfos.startNaviScaleLevel = fmap.mapScaleLevel;
+        //放大导航地图
+        fmap.mapScaleLevel = {
+          level: mapInfos.naviScaleLevel,
+          duration: 0.5,
+          callback: function () {},
+        };
+        //将地图的倾斜角度缓动至
+        fmap.tiltTo({
+          to: 80,
+          duration: 1,
+        });
+        //导航开始
+        handleChangeCoord();
+      }
+    };
+    // 结束导航，重置导航开关参数
+    const handleStopNavi = (e) => {
+      //修改导航状态
+      simulateOptions.naviSwitch = true;
+      simulateOptions.naviStop = true;
+      //还原导航前地图缩放比例
+      fmap.mapScaleLevel = {
+        level: mapInfos.startNaviScaleLevel,
+        duration: 0.5,
+        callback: () => {},
+      };
+      clearTimeout(simulateOptions.naviInt);
+    };
+    // 定位真实导航坐标
+    const handleChangeCoord = () => {
+      clearTimeout(simulateOptions.naviInt);
+      //定时器
+      simulateOptions.naviInt = setTimeout(() => {
+        if (!fmap || !navi) return;
+
+        if (
+          simulateOptions.coordIndex >= simulateOptions.coordsData.length ||
+          simulateOptions.naviStop
+        ) {
+          handleStopNavi();
+          return;
+        }
+        simulateOptions.currentCoord =
+          simulateOptions.coordsData[simulateOptions.coordIndex];
+
+        /**
+         * 1.用于真实导航，设置定位系统所返回的真实定位坐标，内部自动路径约束，同时触发walking事件
+         * 返回如下结果： {remain: 到终点的剩余距离, walk: 已经走过的距离, distanceToNext: 是下一个转角处的距离,
+         * angle: 当前路线与正北方向的角度, index: 当前路段的索引, point: 路径约束后的点, groupID, 当前的楼层id}
+         */
+        navi.locate(simulateOptions.currentCoord);
+
+        /**
+         * 2.用于真实导航，设置定位系统所返回的真实定位坐标，内部无路径约束，同时触发walking事件，
+         * 返回如下结果： {remain: 到终点的剩余距离, walk: 已经走过的距离, distanceToNext: 是下一个转角处的距离,
+         * angle: 当前路线与正北方向的角度, index: 当前路段的索引, point: 路径约束后的点, groupID, 当前的楼层id}
+         * 此方法与locate的区别为内部不在内部自动计算约束
+         */
+        /*this.navi.locateNoConstraint(this.currentCoord);*/
+
+        simulateOptions.coordIndex++;
+        handleChangeCoord();
+      }, 500);
+    };
+
+    /** =================== 蜂鸟控件事件 ====================== */
+    // 切换楼层
+    const handleSwitchGroup = (groupID) => {
+      if (fmap) {
+        let focusGroupID = groupID !== undefined ? groupID : 1;
+        fmap.focusGroupID = focusGroupID;
+        mapInfos.focusGroupID = focusGroupID;
+      }
+    };
+    // 切换单、多层
+    const handleSwitchLayers = () => {
+      if (fmap) {
+        if (!mapInfos.isAllLayer) {
+          fmap.visibleGroupIDs = fmap.groupIDs;
+        } else {
+          fmap.visibleGroupIDs = [fmap.focusGroupID];
+        }
+      }
+      //更改状态
+      mapInfos.isAllLayer = !mapInfos.isAllLayer;
+    };
+
+    onMounted(async () => {
+      utils.global.getElement("fengmap", (node) => {
+        canvas = node;
+        utils.global.getElement("temp", (node) => {
+          tmpCanvas = node;
+
+          onCreateMap();
+        });
+      });
+    });
+
+    // 在离开页面时销毁地图对象
+    onBeforeUnmount(() => {
+      if (fmap) {
+        fmap.dispose();
+      }
+    });
+    return {
+      ...toRefs(mapInfos),
+      handleTouchStart,
+      handleTouchMove,
+      handleTouchEnd,
+      handleSwitchGroup,
+      handleSwitchLayers,
+      handleStartNavi,
+    };
+  },
+};
+</script>
+
+<style lang="scss">
+.map-layout {
+  height: 100%;
+}
+
+.container {
+  position: relative;
+  width: 100vw;
+  height: calc(100vh - 56px - env(safe-area-inset-bottom) - 50px);
+  overflow: hidden;
+  z-index: 0;
+}
+.btn-groups {
+  position: absolute;
+  top: 15px;
+  right: 40px;
+  z-index: 2;
+}
+</style>

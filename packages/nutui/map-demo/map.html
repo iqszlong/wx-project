@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>静态图贴地图层</title>
+</head>
+<script charset="utf-8" src="https://map.qq.com/api/gljs?v=1.exp&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77"></script>
+<style type="text/css">
+  html,
+  body {
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+  }
+
+  #container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #info {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    font-size: 14px;
+    background: #FFF;
+    width: 270px;
+    padding: 10px;
+    border-radius: 3px;
+    z-index: 999;
+  }
+</style>
+
+<body>
+  <div id="info">当前点击坐标为：<span id="position"></span></div>
+  <div id="container"></div>
+
+
+  <script type="text/javascript">
+    //正方形坐标
+    //  const NE = new TMap.LatLng(22.614325, 114.141558);
+    //  const SW = new TMap.LatLng(22.604811, 114.131252);
+    // const img = 'https://qiniu.lazymeta.cn/map-2.jpg'
+    // const center = new TMap.LatLng(22.609902, 114.136230);
+    //长方形坐标
+    const NE = new TMap.LatLng(22.614325, 114.139476);
+    const SW = new TMap.LatLng(22.604811, 114.133378);
+    const img = 'https://qiniu.lazymeta.cn/map.jpg'
+    const center = new TMap.LatLng(22.609570, 114.136200);
+
+    //初始化地图
+    const map = new TMap.Map("container", {
+      zoom: 17, //设置地图缩放级别
+      center: center, //设置地图中心点坐标
+      // showControl: false, //去掉控制
+      // baseMap: null //去掉底图
+    });
+
+
+    
+
+    // 限制地图的显示范围
+    const boundaryNE = NE;
+    const boundarySW = SW;
+    const boundary = new TMap.LatLngBounds(boundarySW, boundaryNE);
+    const polygon = new TMap.MultiPolygon({
+      map,
+      geometries: [{
+        paths: [
+          boundary.getSouthWest(),
+          boundary.getSouthEast(),
+          boundary.getNorthEast(),
+          boundary.getNorthWest()
+        ]
+      }]
+    });
+    map.setBoundary(boundary);
+
+    // 创建地图遮罩
+    const imageNE = NE;
+    const imageSW = SW;
+    const imageLatLngBounds = new TMap.LatLngBounds(imageSW, imageNE);
+    const imageGroundLayer = new TMap.ImageGroundLayer({
+      bounds: imageLatLngBounds,
+      src: img,
+      map: map,
+      opacity: 1.0,
+    });
+    // 获取图层ID
+    const layerId = imageGroundLayer.getId()
+    map.moveLayer(layerId, TMap.constants.LAYER_LEVEL.TEXT)
+
+    //绑定点击事件
+    map.on("click", function (evt) {
+      const lat = evt.latLng.getLat().toFixed(6);
+      const lng = evt.latLng.getLng().toFixed(6);
+      position.innerHTML = `${lat},${lng}`;
+    })
+
+    const hideTXIcon = () => {
+      // 隐藏除信息窗体以外不必要的内容
+      var a = document.querySelector('canvas+div:last-child');
+      let div = a.children[a.childElementCount - 1];
+      div.style.display = 'none';
+    }
+
+    hideTXIcon();
+  </script>
+</body>
+
+</html>

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "wx:dev": "pnpm -filter=nutui dev:weapp-win",
+    "df:dev": "pnpm -filter=df-wx dev:weapp-win"
   },
   "keywords": [],
   "author": "",

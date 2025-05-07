@@ -8,10 +8,12 @@ export const showToast = ({ title = "成功", icon, duration = 2000 } = {}) => {
   });
 };
 
-export const showModal = ({ title = "提示", content = "" } = {}) => {
+export const showModal = ({ title = "提示", content = "",success,complete } = {}) => {
   return Taro.showModal({
     title,
     content,
+    success,
+    complete,
   });
 };
 
